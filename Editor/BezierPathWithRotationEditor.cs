@@ -81,23 +81,24 @@ namespace UnityExtensions.Paths
 
                 using (var scope = ChangeCheckScope.New(path))
                 {
+                    Vector3 eulerAngles = default;
+                    bool lookTangent = true;
+                    eulerAngles = path.GetNodeRatation(selectedNode, Space.Self).eulerAngles;
+                    lookTangent = path.IsNodeLookTangent(selectedNode);
+
                     using (LabelWidthScope.New(EditorGUIUtility.singleLineHeight))
                     {
-                        Vector3 eulerAngles = default;
-                        bool lookTangent = true;
-                        eulerAngles = path.GetNodeRatation(selectedNode, Space.Self).eulerAngles;
-                        lookTangent = path.IsNodeLookTangent(selectedNode);
-
                         eulerAngles.x = EditorGUILayout.FloatField("X", eulerAngles.x);
                         eulerAngles.y = EditorGUILayout.FloatField("Y", eulerAngles.y);
                         eulerAngles.z = EditorGUILayout.FloatField("Z", eulerAngles.z);
-                        lookTangent = EditorGUIUtilities.IndentedToggleButton("Look Tangent", lookTangent);
+                    }
 
-                        if (scope.changed)
-                        {
-                            path.SetNodeRatation(selectedNode, Quaternion.Euler(eulerAngles), Space.Self);
-                            path.SetNodeLookTangent(selectedNode, lookTangent);
-                        }
+                    lookTangent = GUILayout.Toggle(lookTangent, "Look Tangent", EditorStyles.miniButton);
+
+                    if (scope.changed)
+                    {
+                        path.SetNodeRatation(selectedNode, Quaternion.Euler(eulerAngles), Space.Self);
+                        path.SetNodeLookTangent(selectedNode, lookTangent);
                     }
                 }
             }

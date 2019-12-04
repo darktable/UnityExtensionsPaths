@@ -21,7 +21,7 @@ namespace UnityExtensions.Paths
             }
 
 
-            protected override float height => 176;
+            protected override float height => 180;
 
 
             protected override void OnMoveToolWindowGUI(T path)
@@ -55,11 +55,8 @@ namespace UnityExtensions.Paths
 
                 using (var scope = ChangeCheckScope.New(path))
                 {
-                    using (LabelWidthScope.New(EditorGUIUtility.singleLineHeight))
-                    {
-                        bool broken = EditorGUIUtilities.IndentedToggleButton("Broken", path.IsNodeBroken(selectedNode));
-                        if (scope.changed) path.SetNodeBroken(selectedNode, broken);
-                    }
+                    bool broken = GUILayout.Toggle(path.IsNodeBroken(selectedNode), "Broken", EditorStyles.miniButton);
+                    if (scope.changed) path.SetNodeBroken(selectedNode, broken);
                 }
             }
 

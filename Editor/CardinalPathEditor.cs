@@ -21,7 +21,7 @@ namespace UnityExtensions.Paths
             }
 
 
-            protected override float height => 176;
+            protected override float height => 180;
 
 
             protected override void OnMoveToolWindowGUI(T path)
