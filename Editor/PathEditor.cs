@@ -10,7 +10,7 @@ namespace UnityExtensions.Paths
 {
     public partial class Path
     {
-        const float _segmentWidth = 2f;
+        const float _segmentWidth = 3f;
 
         static Color _segmentColor = new Color(1, 0.25f, 0.5f);
         static Color _arrowColor = new Color(1, 0.75f, 0f);
