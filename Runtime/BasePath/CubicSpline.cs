@@ -325,14 +325,20 @@ namespace UnityExtensions.Paths
         // 在编辑器中绘制曲线
         public void Draw(Color color, float width)
         {
-            UnityEditor.Handles.DrawBezier(
-                _f0,
-                _f0 + _f1 + _f2 + _f3,
-                _f0 + _f1 / 3f,
-                _f0 + (_f1 + _f1 + _f2) / 3f,
-                color,
-                null,
-                width);
+            var endPos = _f0 + _f1 + _f2 + _f3;
+            var startTan = _f0 + _f1 / 3f;
+            var endTan = _f0 + (_f1 + _f1 + _f2) / 3f;
+
+            var zTest = UnityEditor.Handles.zTest;
+
+            UnityEditor.Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+            UnityEditor.Handles.DrawBezier(_f0, endPos, startTan, endTan, color, null, width);
+
+            UnityEditor.Handles.zTest = UnityEngine.Rendering.CompareFunction.Greater;
+            color.a *= 0.25f;
+            UnityEditor.Handles.DrawBezier(_f0, endPos, startTan, endTan, color, null, width);
+
+            UnityEditor.Handles.zTest = zTest;
         }
 
 #endif
